@@ -8,15 +8,17 @@ let clusters = [
     new cluster.Cluster("10.63.30.105"),
     new cluster.Cluster("10.63.30.110"),
     new cluster.Cluster("10.63.30.115"),
-    new cluster.Cluster("10.63.4.213")
+    new cluster.Cluster("10.63.4.213"),
+    new cluster.Cluster("10.64.200.100")
 ]
 
-cluster.add_node_call({
-    name: "hypervisor", path: ["hypervisor_full_name"]
-})
-cluster.add_node_call({
-    name: "name", path: ["name"]
-})
+cluster.add_node_calls([
+    {name: "hypervisor", path: ["hypervisor_full_name"]},
+    {name: "name", path: ["name"]},
+    {name: "cvmip", path: ["service_vmexternal_ip"]},
+    {name: "hostip", path: ["hypervisor_address"]},
+    {name: "ipmiip", path: ["ipmi_address"]}
+])
 
 cluster.add_cluster_call({
     path: "PrismGateway/services/rest/v1/storage_pools",

@@ -25,6 +25,7 @@ class Cluster {
             method: "get",
             url: "https://" + this.ip + ":9440/" + suffix,
             responseType: "json",
+            timeout: 10000,
             auth: {
                 username: process.env.CLUSTER_USERNAME,
                 password: process.env.CLUSTER_PASSWORD
@@ -85,15 +86,10 @@ async function collect_stats(clusters, max_cluster, max_api, callback) {
     }
 }
 
-function add_cluster_call(call) {
-    cluster_calls.push(call)
-}
-
-function add_node_call(call) {
-    node_calls.push(call)
-}
-
 module.exports.Cluster = Cluster
 module.exports.collect_stats = collect_stats
-module.exports.add_cluster_call = add_cluster_call
-module.exports.add_node_call = add_node_call
+
+module.exports.add_cluster_call = call => cluster_calls.push(call)
+module.exports.add_cluster_calls = calls => cluster_calls.push(...calls)
+module.exports.add_node_call = call => node_calls.push(call)
+module.exports.add_node_calls = calls => node_calls.push(...calls)
